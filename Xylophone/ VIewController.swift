@@ -11,7 +11,7 @@ import AVFoundation
 
 class ViewController: UIViewController{
     
-    var player: AVAudioPlayer?
+    var audioPlayer: AVAudioPlayer!
 
     
     
@@ -23,21 +23,22 @@ class ViewController: UIViewController{
 
     @IBAction func notePressed(_ sender: UIButton) {
         
-        let url = Bundle.main.url(forResource: "note1", withExtension: "wav")!
-        
-        do {
-            player = try AVAudioPlayer(contentsOf: url)
-            guard let player = player else { return }
-            
-            player.prepareToPlay()
-            player.play()
-        } catch let error as NSError {
-            print(error)
-        }
+        let senderTag: Int = sender.tag
+        playSound(senderTag: senderTag)
         
     }
     
-  
-
+    func playSound(senderTag: Int) {
+        print(senderTag)
+        let soundURL = Bundle.main.url(forResource: "note"+"\(senderTag)", withExtension: "wav")!
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+        } catch {
+            print(error)
+        }
+        
+        audioPlayer.play()
+    }
 }
 
